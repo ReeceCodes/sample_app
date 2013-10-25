@@ -14,3 +14,5 @@ MyApp::Application.config.secret_token = if Rails.env.development? or Rails.env.
 else
   ENV['SECRET_TOKEN']
 end
+
+MyApp::Application.config.secret_token = ENV['SECRET_TOKEN'] || 'supersecrettoken12345678998765431'
