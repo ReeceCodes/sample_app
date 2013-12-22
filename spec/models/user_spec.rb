@@ -81,6 +81,7 @@ describe User do
   end
   
   describe "return value of auth method" do
+  
 	before { @user.save }
 	let(:found_user) { User.find_by(email:@user.email) }
 	
@@ -100,5 +101,21 @@ describe User do
 	end
 	
   end
+  
+  it {should respond_to(:authenticate)}
+  it {should respond_to(:admin)}
+  it {should be_valid}
+  it {should_not be_admin}
+  
+  describe "with admin attribute set to 'true'" do
+	before do
+		@user.save!
+		@user.toggle!(:admin)
+	end
+	
+	it {should be_admin}
+	
+  end
+  
   
 end
