@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+	has_many :microposts, dependent: :destroy #this deletes records when deleting a user, if you wanted to simply deactivate instead of delete needs changing
 	before_save { self.email = email.downcase }
 	before_create :create_remember_token
 	validates(:name, presence:true, length: { maximum: 50})
@@ -14,6 +15,11 @@ class User < ActiveRecord::Base
 	def User.encrypt(token)
 		Digest::SHA1.hexdigest(token.to_s)
 	end
+	
+	def feed
+		Micropost.where("user_id = ?", id) # ? mark escapes id param so no sql injection
+	end
+	
 	
 	private 
 		def create_remember_token

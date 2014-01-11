@@ -47,7 +47,7 @@ describe "AuthenticationPages" do
 
     describe "for non-signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
-
+#wonder why i have this twice....
 	  describe "for non-signed-in users" do
 		let(:user) {FactoryGirl.create(:user)}
 		
@@ -117,6 +117,18 @@ describe "AuthenticationPages" do
 			before {delete user_path(user)}
 			specify {expect(response).to redirect_to(signin_path)}
 			#same as before, root_url didn't redirect to root but instead to the default signin page
+		end
+	end
+	
+	describe "in the microposts controller" do
+		describe "submitting to the create action" do
+			before { post microposts_path }
+			specify { expect(response).to redirect_to(signin_path) }
+		end
+		
+		describe "submitting to the destroy action" do
+			before { delete micropost_path(FactoryGirl.create(:micropost)) }
+			specify { expect(response).to redirect_to(signin_path) }
 		end
 	end
 	
